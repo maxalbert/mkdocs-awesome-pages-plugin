@@ -36,10 +36,10 @@ class HideInRootHasNoEffect(Warning):
 
 class AwesomeNavigation:
 
-    def __init__(self, navigation: MkDocsNavigation, options: Options):
+    def __init__(self, navigation: MkDocsNavigation, docs_dir: str, options: Options):
         self.options = options
 
-        self.meta = NavigationMeta(navigation.items, options)
+        self.meta = NavigationMeta(navigation.items, docs_dir, options)
 
         if self.meta.root.title is not None:
             warnings.warn(TitleInRootHasNoEffect(self.options.filename))
@@ -125,12 +125,12 @@ class AwesomeNavigation:
 
 class NavigationMeta:
 
-    def __init__(self, items: List[NavigationItem], options: Options):
+    def __init__(self, items: List[NavigationItem], docs_dir: str, options: Options):
         self.options = options
         self.sections = {}
 
-        root_path = self._gather_metadata(items)
-        self.root = Meta.try_load_from(join_paths(root_path, self.options.filename))
+        self._gather_metadata(items)
+        self.root = Meta.try_load_from(join_paths(docs_dir, self.options.filename))
 
     def _gather_metadata(self, items: List[NavigationItem]) -> Optional[str]:
         paths = []

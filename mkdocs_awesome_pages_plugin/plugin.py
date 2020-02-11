@@ -19,4 +19,4 @@ class AwesomePagesPlugin(BasePlugin):
     )
 
     def on_nav(self, nav: MkDocsNavigation, config: Config, files: Files):
-        return AwesomeNavigation(nav, Options(**self.config)).to_mkdocs()
+        return AwesomeNavigation(nav, config["docs_dir"], Options(**self.config)).to_mkdocs()
